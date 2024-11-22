@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'; // SchemaFactory: crea el modelo del schema
-import { Role } from '../enums/role.enums';
+import { Role } from 'src/common/enums/role.enums';
 
 @Schema({
   timestamps: true,

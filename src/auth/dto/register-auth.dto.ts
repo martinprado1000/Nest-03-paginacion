@@ -1,5 +1,5 @@
 import { IsNotEmpty, MinLength, IsEmail, Matches, IsString, IsOptional, IsEnum } from "class-validator";
-import { Role } from "src/users/enums/role.enums";
+import { Role } from 'src/common/enums/role.enums';
 
 export class RegisterAuthDto {
 

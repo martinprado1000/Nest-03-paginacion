@@ -1,5 +1,5 @@
 import { IsString, IsNotEmpty, MinLength, IsEmail, IsOptional, IsEnum, Matches } from "class-validator";
-import { Role } from "../enums/role.enums";
+import { Role } from 'src/common/enums/role.enums';
 
 export class CreateUserDto {
     
@@ -25,6 +25,12 @@ export class CreateUserDto {
     @MinLength(6)
     @Matches(/^[^\s]+$/, { message: 'The password must not contain spaces' })
     password: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @MinLength(6)
+    @Matches(/^[^\s]+$/, { message: 'The confirm password must not contain spaces' })
+    confirmPassword: string;
 
     @IsOptional()
     @IsEnum(Role)     // Esto me retorna la error:  "message": ["role must be one of the following values: SUPERADMIN, ADMIN, OPERATOR, USER"],

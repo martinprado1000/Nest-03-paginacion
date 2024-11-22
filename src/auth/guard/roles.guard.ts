@@ -1,6 +1,6 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { Role } from 'src/users/enums/role.enums';
+import { Role } from 'src/common/enums/role.enums';
 import { ROLES_KEY } from '../decorators/roles.decorator';
 
 @Injectable()
@@ -12,7 +12,7 @@ export class RolesGuard implements CanActivate {
       context.getHandler(),
       context.getClass(),
     ]);
-    console.log(requiredRoles) // Estos con los roles obtenidos del decorador personalizado, que son los roles que tienen acceso al endpoint del cual se llamo.
+    //console.log(requiredRoles) // Estos son los roles obtenidos del decorador personalizado, que son los roles que tienen acceso al endpoint del cual se llamo.
     if (!requiredRoles) { // Si el endpoint no requiere de ningun rol permito el acceso
       return true;
     }

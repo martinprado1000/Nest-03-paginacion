@@ -1,5 +1,5 @@
 import {IsString, IsOptional, IsNotEmpty, MinLength, IsEnum, registerDecorator, ValidationOptions, ValidationArguments, Matches} from "class-validator";
-import { Role } from "../enums/role.enums";
+import { Role } from 'src/common/enums/role.enums';
 import { ConflictException } from "@nestjs/common";
 
 function IsNotEditable(validationOptions?: ValidationOptions) { // Asi podriamos crear un decorador personalizado para validar

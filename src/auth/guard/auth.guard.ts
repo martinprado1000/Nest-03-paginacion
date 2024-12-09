@@ -4,7 +4,9 @@ import { Request } from 'express';
 import { JwtService } from '@nestjs/jwt';
 import { jwtConstants } from '../constants/jwt.constant';
 
-// ---- Este guard es para extraer el token del header y comprobar que sea correcto ------------------
+// ---- Este guard es para extraer el token del header y comprobar que sea correcto
+//  Y si es correcto inyecta en el request los datos que vinieron en el token.
+
 @Injectable()
 export class AuthGuard implements CanActivate {
 
@@ -14,7 +16,7 @@ export class AuthGuard implements CanActivate {
     context: ExecutionContext,
   ): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
-    
+
     // Aca veo el token que viene en el headers
     //console.log(request.headers.authorization)
 
@@ -30,9 +32,11 @@ export class AuthGuard implements CanActivate {
           secret: jwtConstants.secret  // Aca hago la comparativa de
         }
       );
+
       
-      request['user'] = payload;  // Esta linea podemos inyectar en el request los datos que vinieron en el token, en este caso el emai.
-    
+      //request['user'] = payload;  // Esta linea inyectamos en el request los datos que vinieron en el token.
+      request.user = payload;
+
     } catch {
       throw new UnauthorizedException();
     }

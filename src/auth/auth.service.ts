@@ -23,7 +23,7 @@ export class AuthService {
   async register(registerAuthDto: RegisterAuthDto) {
 
     const newUser = await this.usersService.create(registerAuthDto);
-    console.log(newUser)
+    //console.log(newUser)
     delete registerAuthDto.password;
 
     if (!newUser) {
@@ -33,7 +33,7 @@ export class AuthService {
     return 'Registered user';
   }
 
-  
+
   //-------LOGIN-----------------------------------------------------------------------
   async login(loginAuthDto: LoginAuthDto) {
     let { email, password } = loginAuthDto;

@@ -6,8 +6,7 @@ import { Role } from 'src/common/enums/role.enums';
 })
 export class User {
 
-  @Prop({
-    // Esto le indica que es una propiedad del documento
+  @Prop({ // Esto le indica que es una propiedad del documento
     required: true,
     trim: true,
   })

@@ -44,8 +44,8 @@ export class AuthController {
 
   @Get('profile')
   // @Roles(Role.ADMIN, Role.SUPERADMIN) // A nuestro decorador le indicamos el o los roles que estan permitidos acceder a este endpoint.
-  // @UseGuards(AuthGuard, RolesGuard)
-          //AuthGuard: comprueba que existe el token y que sea correcto, de lo contrario devuelve Unauthorized.
+  // @UseGuards(AuthGuard, RolesGuard)  // @UseGuards: Decorador de common para unir guards
+          //AuthGuard: Comprueba que existe el token y que sea correcto, de lo contrario devuelve Unauthorized.
           //RolesGuard: Este el el Guard personalizado que hace la comprobacion de los roles.
   @Auth(Role.ADMIN, Role.SUPERADMIN) // Este decorador que creamos reemplaza los 2 de arriba porque estan incluidos ahí. Osea que este decorador ya comprueba que tenga el token valido y que el rol este permitido en esta ruta. 
   //profile(@Request() req: { user: RequestAuthDto }) {

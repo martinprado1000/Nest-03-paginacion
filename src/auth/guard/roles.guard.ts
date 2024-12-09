@@ -3,14 +3,15 @@ import { Reflector } from '@nestjs/core';
 import { Role } from 'src/common/enums/role.enums';
 import { ROLES_KEY } from '../decorators/roles.decorator';
 
+//----  Este Guard personalizado hace la comprobacion de los roles. -----
 @Injectable()
 export class RolesGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
 
   canActivate(context: ExecutionContext): boolean {
-    const requiredRoles = this.reflector.getAllAndOverride<Role[]>(ROLES_KEY, [  // La ejecucion de este metodo es lo que obtiene los valores que le pasamos en el decorador personalizado que creamos.
-      context.getHandler(),
-      context.getClass(),
+    const requiredRoles = this.reflector.getAllAndOverride<Role[]>(ROLES_KEY, [  // La ejecucion de este metodo es lo que obtiene los valores que le pasamos en el decorador personalizado que creamos. ROLES_KEY es el nombre key que le pusimos a la metadata. 
+      context.getHandler(), // Este extrae los metadatos cargados en la peticion actual.
+      context.getClass(),   // Este extrae los metadatos cargados en toda esta clase.
     ]);
     //console.log(requiredRoles) // Estos son los roles obtenidos del decorador personalizado, que son los roles que tienen acceso al endpoint del cual se llamo.
     if (!requiredRoles) { // Si el endpoint no requiere de ningun rol permito el acceso

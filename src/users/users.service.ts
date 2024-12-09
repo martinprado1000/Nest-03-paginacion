@@ -10,7 +10,7 @@ import { Model } from 'mongoose';
 import { User } from './schemas/User.schema'; // Obtenemos la classe Task, Luego cuando lo llamamos accedemos a Task.name qeu seria
 import * as bcrypt from 'bcrypt';
 import { ResponseUserDto } from './dto/response-user.dto';
-import { plainToInstance, TransformPlainToInstance } from 'class-transformer';
+import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class UsersService {
@@ -20,14 +20,14 @@ export class UsersService {
   async findAll() {
     // const users = await this.userModel.find();
     // return users;
-    return await this.userModel.find();
+    return await this.userModel.find(); 
   }
-  
-  // -----------FIND ALL WITHOUT PASSWORD-------------------------------------------------------------
-  async findAllWithOutPassword() {
+
+  // -----------FIND ALL RESPONSE-------------------------------------------------------------
+  async findAllResponse() {
     const users = await this.userModel.find();
     return plainToInstance(ResponseUserDto, users.map(user => user.toObject()), {
-      excludeExtraneousValues: true,
+      excludeExtraneousValues: true, // Excluye propiedades NO marcadas con @Expose
     });
   }
 
@@ -36,9 +36,15 @@ export class UsersService {
     return await this.userModel.findById(id);
   }
 
-  // -----------FIND BY ID WITHOUT PASSWORD------------------------------------------------------------
-  async findByIdWithOutPassword(id: string) {
-    return await this.userModel.findById(id).select('-password').exec();
+  // -----------FIND BY ID RESPONSE------------------------------------------------------------
+  async findByIdResponse(id: string) {
+    //return await this.userModel.findById(id).select('-password').exec();
+    const user = await this.userModel.findById(id);
+    const responsUser = plainToInstance(ResponseUserDto, user.toObject(), { // Paso por el metodo ResponseUserDto para retornar un objeto editado sin el password, se lo paso como objeto plano de javaScript
+      excludeExtraneousValues: true, // Excluye propiedades NO marcadas con @Expose
+    },
+  );
+  return responsUser;
   }
 
   // -----------FIND BY EMAIL-----------------------------------------------------------------------------
@@ -47,7 +53,7 @@ export class UsersService {
   }
 
   // -----------CREATE------------------------------------------------------------------------------------
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto): Promise<ResponseUserDto> {
     let { email, password, confirmPassword } = createUserDto;
 
     if (password != confirmPassword) {
@@ -70,11 +76,11 @@ export class UsersService {
     let newUser = await this.userModel.create(createUserDto);
     //console.log(newUser)
     
-    const newUserResponse = plainToInstance(ResponseUserDto, newUser.toObject(), { // Paso por el metodo ResponseUserDto para retornar un objeto editado sin el password, se lo paso como objeto plano de javaScript
-        excludeExtraneousValues: true, // Excluye propiedades no marcadas con @Expose
+    const newUserResponse: ResponseUserDto = plainToInstance(ResponseUserDto, newUser.toObject(), { // Paso por el metodo ResponseUserDto para retornar un objeto editado sin el password, se lo paso como objeto plano de javaScript
+        excludeExtraneousValues: true, // Excluye propiedades NO marcadas con @Expose
       },
     );
-    //console.log(newUserResponse)
+    console.log(newUserResponse)
     return newUserResponse;
   }
 
@@ -90,9 +96,15 @@ export class UsersService {
     //const editedUser = new this.userModel(updateUserDto);
     //const userUpdated = await editedUser.save();
     //return usersUpdated;
-    return await this.userModel.findByIdAndUpdate(id, updateUserDto, {
-      new: true,
+    const updatedUser = await this.userModel.findByIdAndUpdate(id, updateUserDto, {
+      new: true, 
     }); // {new:true}  es para que me retorne el objeto ya editado
+
+    const updatedUserResponse = plainToInstance(ResponseUserDto, updatedUser.toObject(), { // Paso por el metodo ResponseUserDto para retornar un objeto editado sin el password, se lo paso como objeto plano de javaScript
+      excludeExtraneousValues: true, // Excluye propiedades NO marcadas con @Expose
+    },
+  );
+  return updatedUserResponse;
   }
 
   // -----------DELETE-------------------------------------------------------------------------------

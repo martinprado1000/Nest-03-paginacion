@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  db_mongo_nest:
+    image: mongo:5.0.0
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGODB_DATABASE: Nest-02-plantilla_En-docker
+    volumes:
+      - ./mongo:/data/db

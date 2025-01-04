@@ -1,10 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'; // SchemaFactory: crea el modelo del schema
+import { Document } from 'mongoose';
 import { Role } from 'src/common/enums/role.enums';
 
 @Schema({
-  timestamps: true,
+  timestamps: true, 
 })
-export class User {
+export class User extends Document {
 
   @Prop({ // Esto le indica que es una propiedad del documento
     required: true,
@@ -19,6 +20,7 @@ export class User {
   lastname: string;
 
   @Prop({
+    index: true,
     required: true,
     unique: true,
     trim: true,
@@ -39,7 +41,7 @@ export class User {
   role: Role;
 }
 
-export const UserSchema = SchemaFactory.createForClass(User); // SchemaFactory.createForClass: esto es lo que crea el modelo.
+export const UserSchema = SchemaFactory.createForClass(User); // SchemaFactory.createForClass: esto es lo que crea el modelo con el nombre user.
 
 
 // Recordar importar el schema en el modulo:

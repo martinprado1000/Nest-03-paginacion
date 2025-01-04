@@ -21,10 +21,10 @@ export class UpdateUserDto {
     @Transform(({ value }) => capitalize(value))
     lastname?: string;
 
-    // El dato email lo ignoro ya que no es editable.
-    //@IsNotEditable()  // ({ message: "Email is not editable" })  Si quisiera le puedo pasar un valor de message a la funcion
-    //@IsOptional()
-    //email?: string;
+    //El dato email lo ignoro ya que no es editable.
+    @IsNotEditable()  // ({ message: "Email is not editable" })  Si quisiera le puedo pasar un valor de message a la funcion
+    @IsOptional()
+    email?: string;
 
     @IsOptional()
     @IsString()
@@ -54,12 +54,11 @@ function IsNotEditable(validationOptions?: ValidationOptions) { // Asi podriamos
       options: validationOptions,
       validator: {
         validate(value: any, args: ValidationArguments) {
-          console.log(value)
           // Si el campo tiene valor, entonces es editable (y no debería)
           return value === undefined || value === null;
         },
         defaultMessage(args: ValidationArguments) {
-          throw new ConflictException(`The user already exists`);
+          throw new ConflictException(`Email is not editable`);
         }
       },
     });

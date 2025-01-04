@@ -15,13 +15,15 @@ import {
   Inject,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+//import { CreateUserDto } from './dto/create-user.dto';
+//import { UpdateUserDto } from './dto/update-user.dto';
+//import { ResponseUserDto } from './dto/response-user.dto';
+// Cree un punto de entrada en la carpeta dto (index.ts) para poder hacer la importacion solo en una linea como a continuacion:
+import { CreateUserDto, UpdateUserDto, ResponseUserDto } from './dto';
 import { Auth } from 'src/auth/decorators/user.decorator';
 import { Role } from 'src/common/enums/role.enums';
 import { RequestAuthDto } from 'src/auth/dto/request-auth.dto';
 import { ActivateUser } from 'src/common/decorators/activeUser.decorator';
-import { ResponseUserDto } from './dto/response-user.dto';
 import { idMongoPipe } from 'src/common/pipes/idMongo.pipe';
 import { CustomLoggerService } from 'src/logger/logger.service';
 import { Request } from 'express';
@@ -43,19 +45,16 @@ export class UsersController {
       this.logger.verbose('This is a verbose',  UsersController.name);
       return this.usersService.findAllResponse();
     } catch (error) {
-      console.log(`${error}`);
+      this.logger.error('This is an error', UsersController.name, "Error detail");
       throw new ConflictException(`${error}`);
     }
   }
 
   @Get(':id')
   async findById(@Param('id', idMongoPipe) id: string) {
-    // UserPipe: con el pipe chequeo si el id es un id valido de Mongoose
     try {
       const user = await this.usersService.findByIdResponse(id);
-      if (!user) {
-        throw new NotFoundException(`User not found`);
-      }
+      if (!user) throw new NotFoundException(`User not found`);
       return user;
     } catch (error) {
       console.log(`${error}`);
@@ -90,9 +89,7 @@ export class UsersController {
         id,
         updateUserDto,
       );
-      if (!user) {
-        throw new NotFoundException(`User not found`);
-      }
+      if (!user) throw new NotFoundException(`User not found`);
       return user;
     } catch (error) {
       console.log(`${error}`);
@@ -110,9 +107,7 @@ export class UsersController {
     try {
       //console.log(ActivateUser)
       const user = await this.usersService.remove(id);
-      if (!user) {
-        throw new NotFoundException(`User not found`);
-      }
+      if (!user) throw new NotFoundException(`User not found`);
       return user;
     } catch (error) {
       console.log(`${error}`);
@@ -120,3 +115,4 @@ export class UsersController {
     }
   }
 }
+ 

@@ -2,10 +2,11 @@ import { IsString, IsNotEmpty, MinLength, IsEmail, IsOptional, IsEnum, Matches }
 import { Transform } from 'class-transformer';
 import { Role } from 'src/common/enums/role.enums';
 
+// class-validator nos obliga a que en vez de una interface sea una clase, y luego usamos esa clase como un tipo de dato.
+
 export class CreateUserDto {
     
     @IsString()
-    @Transform(({ value }) => value?.toUpperCase()) // Convierte el valor a mayúsculas
     @IsNotEmpty()
     @MinLength(2)
     @Matches(/^[^\s]+$/, { message: 'The name must not contain spaces' })
@@ -37,7 +38,7 @@ export class CreateUserDto {
     confirmPassword: string;
 
     @IsOptional()
-    @IsEnum(Role)     // Esto me retorna la error:  "message": ["role must be one of the following values: SUPERADMIN, ADMIN, OPERATOR, USER"],
+    @IsEnum(Role)     // Esto me retorna el error:  "message": ["role must be one of the following values: SUPERADMIN, ADMIN, OPERATOR, USER"],
     @Matches(/^[^\s]+$/, { message: 'The role must not contain spaces' })
     @Transform(({ value }) => value?.toUpperCase()) // Convierte el valor a mayúsculas
     role?: Role;

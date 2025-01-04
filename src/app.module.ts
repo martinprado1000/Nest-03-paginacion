@@ -1,3 +1,4 @@
+import { join } from 'path';
 import { MiddlewareConsumer, Module, NestModule, Request } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from './users/users.module';
@@ -5,52 +6,46 @@ import { AuthModule } from './auth/auth.module';
 import { LoggerModule } from './logger/logger.module';
 import { CorrelationIdMiddleware } from './middlewares/correlation-id.middleware';
 import { WinstonModule } from 'nest-winston';
-import * as winston from 'winston';
 import 'winston-mongodb';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { envLoader } from './envLoader';
+import { envSchema } from 'src/envSchema';
+import { mongooseConfigFactory } from './appConfig/mongoose.config';
+import { winstonConfigFactory } from './appConfig/winston.config';
+import { SeedModule } from './seed/seed.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
 
 @Module({
   imports: [
-    // Conexión a MongoDB para la aplicación
-    MongooseModule.forRoot('mongodb://localhost:27017/Nest-02-plantilla'),
-
-    // Configuración de Winston con la conexión existentee
-    WinstonModule.forRootAsync({
-      useFactory: () => {
-        return{
-          transports:[
-            new winston.transports.Console({
-              level: 'debug', // Si esto no lo configuro el valor default es 'info'.
-              format: winston.format.combine(
-                winston.format.timestamp(),
-                winston.format.ms(),
-                winston.format.colorize(),
-                winston.format.printf(({ level, message, timestamp, context, trace }) => {
-                  const correlationId = CorrelationIdMiddleware.getCorrelationId();
-                  return `[${level}] ${timestamp} [Cid: ${correlationId || 'no-correlation-id'}] ${context || ''}: ${message}. Detail:${trace || 'no-detail'}`;
-                }),
-              ),
-            }),
-            new winston.transports.MongoDB({
-              level: 'info', // Este es el valor default, lo podrías omitir.
-              db: 'mongodb://localhost:27017/Nest-02-plantilla1', // URL de la base de datos
-              collection: 'logs', // Colección donde se guardan los logs
-              format: winston.format.combine(
-                winston.format.json(),
-                winston.format((info) => {
-                  const correlationId = CorrelationIdMiddleware.getCorrelationId();
-                  info.correlationId = correlationId || 'no-correlation-id';
-                  return info;
-                })(),
-              ),
-            })
-          ]
-        }
-      },
+    // npm i --save @nestjs/config  .Es para configurar las variables de entorno
+    // npm i --save joi             .Es para validar las variables de entorno
+    ConfigModule.forRoot({  // .Obtiene variables de entorno. Por default las obtien de .env en la raiz
+      load: [envLoader],    // Le indicamos de que archivo levantar las variables de entorno. Lo hago asi para poder estructurar mejor los datos.
+      validationSchema: envSchema,
     }),
+
+    //MongooseModule.forRoot('mongodb://localhost:27017/Nest-02-plantilla'), 
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],    // IMPORTA ConfigModule para poder usar el configService que configuramos en el main
+      inject: [ConfigService],    // Inyecta el ConfigService
+      useFactory: mongooseConfigFactory,
+    }),
+
+    // Configuración de Winston
+    WinstonModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: winstonConfigFactory,
+    }),
+
+    ServeStaticModule.forRoot({  // Indicamos la ruto de nuestras archivos publicos
+      rootPath: join(__dirname,'..','public'), 
+    }), 
 
     LoggerModule,
     UsersModule,
     AuthModule,
+    SeedModule,
   ],
 })
 

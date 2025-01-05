@@ -10,21 +10,25 @@
 
 
 # Ejecutar en desarrollo
-1. Clonar el repositorio
+1. Clonar el repositorio y asignamos al nuevo repo ya creado en git
+```bash
+git clone https://github.com/martinprado1000/Nest-03-plantilla.git nuevoNombre
+
+git remote set-url origin https://github.com/martinprado1000/nuevoNombre.git
+```
 
 2. Tener Nest CLI instalado:
-```
+```bash
 npm i -g @nest/cli
 ```
 
 3. Levantar la base de datos
-```
+```bash
 docker-compose up -d
 ```
 
 # Load user superadmin
-
-```
+```bash
 http://localhost:3000/seed
 ```
 

@@ -14,6 +14,7 @@ import { mongooseConfigFactory } from './appConfig/mongoose.config';
 import { winstonConfigFactory } from './appConfig/winston.config';
 import { SeedModule } from './seed/seed.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { SeedPokemonsModule } from './seed-pokemons/seed-pokemons.module';
 
 @Module({
   imports: [
@@ -46,6 +47,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
     UsersModule,
     AuthModule,
     SeedModule,
+    SeedPokemonsModule,
   ],
 })
 

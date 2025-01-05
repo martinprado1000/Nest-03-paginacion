@@ -1,5 +1,5 @@
 {
-  "name": "02-plantilla",
+  "name": "03-paginacion",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -28,6 +28,7 @@
     "@nestjs/mongoose": "^10.1.0",
     "@nestjs/platform-express": "^10.4.12",
     "@nestjs/serve-static": "^4.0.2",
+    "axios": "^0.27.2",
     "bcrypt": "^5.1.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",

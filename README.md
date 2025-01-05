@@ -43,6 +43,4 @@ $ npm run start:prod
 
 ### Si no levanto la base de datos de docker-compose lo puedo levantar de forma local.
 
-test committtttttttt git checkout --.
-
 

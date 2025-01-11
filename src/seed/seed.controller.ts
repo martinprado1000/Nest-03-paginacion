@@ -5,8 +5,18 @@ import { SeedService } from './seed.service';
 export class SeedController {
   constructor(private readonly seedService: SeedService) {}
 
-  @Get()
-  genereteSeed() {
-    return this.seedService.genereteSeed();
+  @Get("pokemons")
+  createSeed() {
+    return this.seedService.create();
+  }
+
+  @Get("pokemons/multiplesRegistros")
+  createSeedMutiplesRegistros() {
+    return this.seedService.createMutiplesRegistros();
+  }
+
+  @Get("pokemons/multiplesRegistros2")
+  createSeedMutiplesRegistros2() {
+    return this.seedService.createMutiplesRegistros2();
   }
 }

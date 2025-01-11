@@ -1,20 +1,21 @@
-import { join } from 'path';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MiddlewareConsumer, Module, NestModule, Request } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ServeStaticModule } from '@nestjs/serve-static';
+
+import { join } from 'path';
+import { envLoader } from './appConfig/envLoader';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { LoggerModule } from './logger/logger.module';
 import { CorrelationIdMiddleware } from './middlewares/correlation-id.middleware';
 import { WinstonModule } from 'nest-winston';
 import 'winston-mongodb';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { envLoader } from './envLoader';
 import { envSchema } from 'src/envSchema';
 import { mongooseConfigFactory } from './appConfig/mongoose.config';
 import { winstonConfigFactory } from './appConfig/winston.config';
 import { SeedModule } from './seed/seed.module';
-import { ServeStaticModule } from '@nestjs/serve-static';
-import { SeedPokemonsModule } from './seed-pokemons/seed-pokemons.module';
+import { PokemonsModule } from './pokemons/pokemons.module';
 
 @Module({
   imports: [
@@ -39,7 +40,7 @@ import { SeedPokemonsModule } from './seed-pokemons/seed-pokemons.module';
       useFactory: winstonConfigFactory,
     }),
 
-    ServeStaticModule.forRoot({  // Indicamos la ruto de nuestras archivos publicos
+    ServeStaticModule.forRoot({  // Indicamos la ruta de nuestras archivos publicos
       rootPath: join(__dirname,'..','public'), 
     }), 
 
@@ -47,7 +48,7 @@ import { SeedPokemonsModule } from './seed-pokemons/seed-pokemons.module';
     UsersModule,
     AuthModule,
     SeedModule,
-    SeedPokemonsModule,
+    PokemonsModule,
   ],
 })
 

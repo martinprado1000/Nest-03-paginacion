@@ -32,6 +32,13 @@ docker-compose up -d
 http://localhost:3000/seed
 ```
 
+# Load Pokemon seed 
+```bash
+#Insert multiple data
+http://localhost:3000/seed/pokemons/multiplesRegistros2
+```
+
+
 # Construir y ejecutar para producción
 ```bash
 # Construir

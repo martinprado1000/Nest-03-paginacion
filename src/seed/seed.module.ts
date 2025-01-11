@@ -1,13 +1,11 @@
 import { Module } from '@nestjs/common';
 import { SeedService } from './seed.service';
 import { SeedController } from './seed.controller';
-import { UsersModule } from 'src/users/users.module';
+import { PokemonsModule } from 'src/pokemons/pokemons.module';
 
 @Module({
+  imports: [ PokemonsModule ],
   controllers: [SeedController],
   providers: [SeedService],
-  imports:[
-    UsersModule,
-  ]
 })
-export class SeedModule {}
+export class SeedModule {} 

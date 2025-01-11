@@ -22,7 +22,10 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({
     whitelist:true,  // Esta linea lo que hace es que si me mandan datos de mas que no los reciba.
     forbidNonWhitelisted: true, // Retorna el error si nos envian datos de mas.
-    transform:true  // Esta opcion lo que hace es que si me mandan un param como number y yo le indico que es un number lo transforma automaticamente.
+    transform:true,      //convertir automáticamente los datos recibidos (por ejemplo, de un req.body) al tipo definido en el DTO.
+    transformOptions:{   //conversión implícita de tipos sin necesidad de usar el decorador @Type() de class-transformer.
+      enableImplicitConversion: true,
+    }
   }));    
   // Esto hace que cada vez que se llame a una ruta primero pasa por las
   // validaciones de class-validator. Lo hacemos aca porque lo hace para todas las rutas a nivel global. Osea lo que hace es que

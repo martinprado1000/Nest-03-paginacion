@@ -1,19 +1,24 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { InjectModel } from '@nestjs/mongoose';
+
 import axios, { AxiosInstance } from 'axios';
 import { seedPokemon } from './interfaces/seed-pokemons.interface';
-import { InjectModel } from '@nestjs/mongoose';
 import { Pokemon } from './schemas/pokemon.schema';
 import { Model } from 'mongoose';
 import { PaginationDto } from 'src/common/dtos/pagination.dto';
-import { number } from 'joi';
 
 @Injectable()
 export class PokemonsService {
   private readonly axios: AxiosInstance = axios;
-
+  private defaultLimit:number;
   constructor(
     @InjectModel(Pokemon.name) private PokemonModel: Model<Pokemon>,
-  ) {}
+    private readonly configService: ConfigService,
+  ) {
+    this.defaultLimit = configService.get<number>('pagination.defaultLimit')
+    console.log(process.env.PAGINATIOS_DEFAULT_LIMIT)
+  }
 
   // En el siguiente metodo podria no usar el async/await usando Promise, pero no funciona porque {data} seguiria siendo un objeto y da error porque el tipo no seria seedPokemon.
   // create2(): Promise<seedPokemon> {
@@ -90,7 +95,8 @@ export class PokemonsService {
 
   //----------------------------findAll with parameters---------------------------------------------------------------------------------------------
   async findAll(paginationDto: PaginationDto) {
-    const { limit = 10, offset = 0} = paginationDto //De esta forma destructuro pero si no vinieron esos datos les aplico estos por defecto.
+    const { limit = this.defaultLimit, offset = 0} = paginationDto //De esta forma destructuro pero si NO vinieron esos datos les aplico estos por defecto.
+    console.log(paginationDto)
     return await this.PokemonModel.find()
     .limit(limit)   // Trae solo 5
     .skip(offset)   // Trae desde el 6 en adelante

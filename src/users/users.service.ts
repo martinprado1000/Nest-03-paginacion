@@ -8,7 +8,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose'; // Es para inyectar modelos de esquemas en mongoose
 import { Model } from 'mongoose';
-import { User } from './schemas/User.schema'; // Obtenemos la classe Task, Luego cuando lo llamamos accedemos a Task.name qeu seria
+import { User } from './schemas/user.schema'; // Obtenemos la classe Task, Luego cuando lo llamamos accedemos a Task.name qeu seria
 import * as bcrypt from 'bcrypt';
 import { ResponseUserDto } from './dto/response-user.dto';
 import { plainToInstance } from 'class-transformer';

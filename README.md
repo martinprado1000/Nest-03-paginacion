@@ -23,18 +23,19 @@ npm i -g @nest/cli
 ```
 
 3. Levantar la base de datos
+
 ```bash
 docker-compose up -d
 ```
 
-# Load user superadmin
-```bash
-http://localhost:3000/seed
-```
+4. Renombrar el archivo __.env.template__ por __.env__ y llenar las variables de entorno.
 
-# Load Pokemon seed 
+5. Ejecutar en desarrollo
 ```bash
-#Insert multiple data
+# Esto ejecuta el archivo docker.compose.yml
+$ npm run star:dev
+
+# Ejecutar seed de Pokemons ,inserta multiples datos.
 http://localhost:3000/seed/pokemons/multiplesRegistros2
 ```
 
@@ -48,8 +49,22 @@ $ npm run build
 $ npm run start:prod
 ```
 
-### Si no levanto la base de datos de docker-compose lo puedo levantar de forma local.
-assdasdasd
+# Construir y ejecutar para producción la app y la base en mongo DOCKERIZADO
+
+1. Renombrar el archivo __.env.template__ por __.env.prod__ y llenar las variables de entorno.
+
+2. Crear las imagenes
+```bash
+# Usamos el docker-compose.prod.yaml y el .env.prod que son los de produccón.
+
+docker-compose -f docker-compose.prod.yaml --env-file .env.prod up --build
+
+# Si las imagenes ya fueron creadas y solo necesitamos levantar ejecutar:
+docker-compose -f docker-compose.prod.yaml --env-file .env.prod up -d
+```
+
+
+
 
 
 

@@ -1,7 +1,5 @@
 FROM node:18-alpine3.15
 
-
-
 # Set working directory
 RUN mkdir -p /var/www/paginacion     # Creamos el directorio donde va a crear nuestra aplicacion dentro del linux
 WORKDIR /var/www/paginacion

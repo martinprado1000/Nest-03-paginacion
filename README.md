@@ -22,8 +22,7 @@ git remote set-url origin https://github.com/martinprado1000/nuevoNombre.git
 npm i -g @nest/cli
 ```
 
-3. Levantar la base de datos
-
+3. Levantar la base de datos. Esta solo dockerizada la base de datos, no la app.
 ```bash
 docker-compose up -d
 ```
@@ -62,6 +61,27 @@ docker-compose -f docker-compose.prod.yaml --env-file .env.prod up --build
 # Si las imagenes ya fueron creadas y solo necesitamos levantar ejecutar:
 docker-compose -f docker-compose.prod.yaml --env-file .env.prod up -d
 ```
+
+#
+### Esta aplicacion es para administrar pokemones.
+Configuraciones:
+
+* Entidades: user, auth, pokemones.
+
+* .env  .env.template  .env.prod.
+
+* ConfigModule,ConfigService,Joi.
+
+* Si ejecuto en mode dev solo esta dockerizada la db. 
+
+* En prod usamos el archivo docker-compose.prod.yml donde esta dockerizada la app y la db.
+
+-- Esta aplicacion es la que yo arranque como plantilla, esta contempla:
+
+* Logger Winston. (hecho por mi cuenta)
+* CorrelationId. (hecho por mi cuenta)
+* Autenticacion y autorizacion. (hecho por mi cuenta)
+* Agregue la entity pokemones.
 
 
 

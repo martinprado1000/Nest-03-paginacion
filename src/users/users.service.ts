@@ -39,7 +39,7 @@ export class UsersService {
 
   // -----------FIND BY ID RESPONSE------------------------------------------------------------
   async findByIdResponse(id: string) {
-    //return await this.userModel.findById(id).select('-password').exec();
+    //return await this.userModel.findById(id).select('-password').exec(); // Asi facil lo podria retornar sin el password.
     const user = await this.userModel.findById(id);
 
     if (!user) throw new NotFoundException(`User with id ${id} not found`)

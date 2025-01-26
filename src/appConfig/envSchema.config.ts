@@ -1,6 +1,6 @@
 import * as Joi from 'joi';
-// Los valoredes default definidos aca son para el caso que no entendefinidos en la variable de entorno.
-// Los valore que pongo aca por default prevalecen ante el envLoader.
+// Los valoredes default definidos aca son para el caso que no enten definidos en la variable de entorno.
+// Los valores que pongo aca por default prevalecen ante el envLoader.
 // para que no me de error NO lo puede dejar vacio en el .env, directamente no tiene que estar definido dicha variable.
 
 export const envSchema = Joi.object({ 

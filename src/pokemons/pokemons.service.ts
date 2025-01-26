@@ -20,13 +20,36 @@ export class PokemonsService {
     console.log(process.env.PAGINATIOS_DEFAULT_LIMIT)
   }
 
+
+  //----------------------------findAll with parameters---------------------------------------------------------------------------------------------
+  async findAll(paginationDto: PaginationDto) {
+    const { limit = this.defaultLimit, offset = 0} = paginationDto //De esta forma destructuro pero si NO vinieron esos datos les aplico estos por defecto.
+    console.log(paginationDto)
+    return await this.PokemonModel.find()
+    .limit(limit)   // Trae solo 5
+    .skip(offset)   // Trae desde el 6 en adelante
+    .sort({         // Ordena
+      number:1      // 1 ordena de forma ascendente 
+    })
+    .select('-__v')  // Con el (-) menos alimina la columna indicada. Sin el - agrega lo que le indiquemos
+  }
+
+
+
+  //----------------------------findById---------------------------------------------------------------------------------------------
+  async findById(id: string) {
+    return await this.PokemonModel.findById(id);
+  }
+
+
+
   // En el siguiente metodo podria no usar el async/await usando Promise, pero no funciona porque {data} seguiria siendo un objeto y da error porque el tipo no seria seedPokemon.
   // create2(): Promise<seedPokemon> {
   //   const {data} = this.axios.get<seedPokemon>("https://pokeapi.co/api/v2/pokemon?limit=600") // Obtenemos la respuesta de data si no genera una referencias circulares a JSON
   //   console.log(data.results)
   //   return data;
   // }
-  //---------------------------Inserto registro por registro------------------------------------------------------------------------------------------------------------
+  //---------------------------Semilla, Inserto registro por registro de la semilla------------------------------------------------------------------------------------------------------------
   async createSeed(): Promise<string> {
     await this.PokemonModel.deleteMany({}); // Borro todos los registros
 
@@ -45,7 +68,8 @@ export class PokemonsService {
     return 'Seed executed';
   }
 
-  //----------------------------Inserto promesas sin esperar--------------------------------------------------------------------------------------------------------------------------
+
+  //----------------------------Semilla, Inserto promesas sin esperar--------------------------------------------------------------------------------------------------------------------------
   // Esto va a generar los mismos registros que el metodo anterio con la diferencia que no espera en cada insersion.
   // Lo que hace es crear un arreglo de promesas y luego los inserta todos juntos.
   async createSeedMultiplesRegistros(): Promise<seedPokemon> {
@@ -71,7 +95,9 @@ export class PokemonsService {
     return data;
   }
 
-  //----------------------------Inserto sin esperar, esta es la opcion mas eficiente--------------------------------------------------------------------------------------------------------------------------
+
+
+  //----------------------------Semilla, Inserto sin esperar, esta es la opcion mas eficiente--------------------------------------------------------------------------------------------------------------------------
   // Esto va a generar los mismos registros que el metodo anterio con la diferencia que insertamos todo el arreglo junto.
   async createSeedMultiplesRegistros2(): Promise<seedPokemon> {
     await this.PokemonModel.deleteMany({});
@@ -93,21 +119,5 @@ export class PokemonsService {
     return data;
   }
 
-  //----------------------------findAll with parameters---------------------------------------------------------------------------------------------
-  async findAll(paginationDto: PaginationDto) {
-    const { limit = this.defaultLimit, offset = 0} = paginationDto //De esta forma destructuro pero si NO vinieron esos datos les aplico estos por defecto.
-    console.log(paginationDto)
-    return await this.PokemonModel.find()
-    .limit(limit)   // Trae solo 5
-    .skip(offset)   // Trae desde el 6 en adelante
-    .sort({         // Ordena
-      number:1      // 1 ordena de forma ascendente 
-    })
-    .select('-__v')  // Con el (-) menos alimina la columna indicada. Sin el - agrega lo que le indiquemos
-  }
 
-  //----------------------------findById---------------------------------------------------------------------------------------------
-  async findById(id: string) {
-    return await this.PokemonModel.findById(id);
-  }
 }

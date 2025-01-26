@@ -8,7 +8,7 @@ services:
       context: .
       dockerfile: Dockerfile
     image: paginacion-docker
-    container_name: nest_03_paginacion
+    container_name: nest_03_plantilla
     restart: always # reiniciar el contenedor si se detiene
     ports:
       - "${PORT}:${PORT}"

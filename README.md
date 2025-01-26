@@ -27,7 +27,11 @@ npm i -g @nest/cli
 docker-compose up -d
 ```
 
-4. Renombrar el archivo __.env.template__ por __.env__ y llenar las variables de entorno.
+4. Renombrar el archivo __.env.template__ por __.env__ y llenar las variables de entorno e instalar las dependencias:
+```bash
+#Instalar dependencias
+git install
+```
 
 5. Ejecutar en desarrollo
 ```bash
@@ -66,7 +70,7 @@ docker-compose -f docker-compose.prod.yaml --env-file .env.prod up -d
 ### Esta aplicacion es para administrar pokemones.
 Configuraciones:
 
-* Entidades: user, auth, pokemones.
+* Entidades: user, pokemones, Auth(Hecho por mi SIN jwt ni passport )
 
 * .env  .env.template  .env.prod.
 
@@ -81,7 +85,7 @@ Configuraciones:
 * Logger Winston. (hecho por mi cuenta)
 * CorrelationId. (hecho por mi cuenta)
 * Autenticacion y autorizacion. (hecho por mi cuenta)
-* Agregue la entity pokemones.
+* Agregue la entity pokemones. (del curso de Herrera)
 
 
 

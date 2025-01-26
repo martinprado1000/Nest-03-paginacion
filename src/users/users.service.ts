@@ -28,7 +28,7 @@ export class UsersService {
   async findAllResponse() {
     const users = await this.userModel.find();
     return plainToInstance(ResponseUserDto, users.map(user => user.toObject()), {
-      excludeExtraneousValues: true, // Excluye propiedades NO marcadas con @Expose
+      excludeExtraneousValues: true, // Excluye propiedades NO marcadas con @Expose en el response-user.dto
     });
   }
 

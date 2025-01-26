@@ -30,7 +30,7 @@ docker-compose up -d
 4. Renombrar el archivo __.env.template__ por __.env__ y llenar las variables de entorno e instalar las dependencias:
 ```bash
 #Instalar dependencias
-git install
+npm install
 ```
 
 5. Ejecutar en desarrollo

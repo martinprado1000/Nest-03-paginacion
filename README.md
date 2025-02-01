@@ -67,25 +67,31 @@ docker-compose -f docker-compose.prod.yaml --env-file .env.prod up -d
 ```
 
 #
-### Esta aplicacion es para administrar pokemones.
+### ¿QUE HACE ESTA App?
 Configuraciones:
 
-* Entidades: user, pokemones, Auth(Hecho por mi SIN jwt ni passport )
+-- Esta aplicacion es la que yo arranque como plantilla, esta contempla:
+
+* Entidades: User, Pokemones, Auth(Hecho por mi SIN jwt ni passport )
 
 * .env  .env.template  .env.prod.
 
 * ConfigModule,ConfigService,Joi.
 
+* Logger Winston. (hecho por mi cuenta)
+
+* CorrelationId. (hecho por mi cuenta)
+
+* Autenticacion y autorizacion. Solo recibe como role: SUPERADMIN, ADMIN, OPERATOR, USER (Solo string en mayuscula, no arreglo) (hecho por mi cuenta).
+
+* Creamos el schema pokemones. (del curso de Herrera).
+Busca pokemones all y por id. y creamos semilla de pokemons de 3 formas distintas.
+
 * Si ejecuto en mode dev solo esta dockerizada la db. 
 
 * En prod usamos el archivo docker-compose.prod.yml donde esta dockerizada la app y la db.
 
--- Esta aplicacion es la que yo arranque como plantilla, esta contempla:
 
-* Logger Winston. (hecho por mi cuenta)
-* CorrelationId. (hecho por mi cuenta)
-* Autenticacion y autorizacion. (hecho por mi cuenta)
-* Agregue la entity pokemones. (del curso de Herrera)
 
 
 

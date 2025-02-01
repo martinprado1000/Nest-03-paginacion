@@ -107,11 +107,6 @@ export class UsersService {
   return updatedUserResponse;
   }
 
-  //async update(id: string, updateUserDto: UpdateUserDto) {
-    //const usersUpdated = await this.userModel.findByIdAndUpdate(id,updateUserDto,{new:true});
-    //return usersUpdated;
-  //}
-
   // -----------DELETE-------------------------------------------------------------------------------
   async remove(id: string) {
     return await this.userModel.findByIdAndDelete(id);

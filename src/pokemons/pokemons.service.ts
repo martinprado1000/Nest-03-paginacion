@@ -17,14 +17,12 @@ export class PokemonsService {
     private readonly configService: ConfigService,
   ) {
     this.defaultLimit = configService.get<number>('pagination.defaultLimit')
-    console.log(process.env.PAGINATIOS_DEFAULT_LIMIT)
   }
 
 
   //----------------------------findAll with parameters---------------------------------------------------------------------------------------------
   async findAll(paginationDto: PaginationDto) {
     const { limit = this.defaultLimit, offset = 0} = paginationDto //De esta forma destructuro pero si NO vinieron esos datos les aplico estos por defecto.
-    console.log(paginationDto)
     return await this.PokemonModel.find()
     .limit(limit)   // Trae solo 5
     .skip(offset)   // Trae desde el 6 en adelante
@@ -60,7 +58,6 @@ export class PokemonsService {
     data.results.forEach(async ({ name, url }) => {
       const segments = url.split('/'); // Separo el url donde hay una /
       const numPokemon: number = +segments[segments.length - 2]; // Estraigo el anteultimo valor que es el numero de pokemon. Agrego el + porque en la url viene como extring
-      console.log(name, numPokemon);
       const res = await this.PokemonModel.create({ name, number: numPokemon });
       console.log(res);
     });
